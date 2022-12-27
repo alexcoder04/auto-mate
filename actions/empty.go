@@ -2,7 +2,8 @@ package actions
 
 // Does nothing
 // Arguments: none
-func Empty(i map[string]any, a ...string) map[string]any {
+// Returns: none
+func Empty(i map[string]any) map[string]any {
 	return map[string]any{
 		"success": true,
 	}

@@ -3,23 +3,29 @@ package actions
 import "github.com/TheCreeper/go-notify"
 
 // Sends a desktop notification.
-// Arguments: title, [body, icon]
-func Notification(i map[string]any, a ...string) map[string]any {
-	var ntf notify.Notification
+// Arguments:
+// - [title: string]
+// - [body: string]
+// - [icon: string]
+func Notification(i map[string]any) map[string]any {
+	title := "auto-mate"
+	body := ""
+	icon := ""
 
-	switch len(a) {
-	case 0:
-		return map[string]any{
-			"success": false,
-		}
-	case 1:
-		ntf = notify.NewNotification(a[0], "")
-	case 2:
-		ntf = notify.NewNotification(a[0], a[1])
-	case 3:
-		ntf = notify.NewNotification(a[0], a[1])
-		ntf.AppIcon = a[2]
+	if val, ok := i["title"]; ok {
+		title = val.(string)
 	}
+
+	if val, ok := i["body"]; ok {
+		body = val.(string)
+	}
+
+	if val, ok := i["icon"]; ok {
+		icon = val.(string)
+	}
+
+	ntf := notify.NewNotification(title, body)
+	ntf.AppIcon = icon
 
 	_, err := ntf.Show()
 	return map[string]any{

@@ -7,9 +7,12 @@ import (
 )
 
 // Changes WiFi state.
-// Arguments: "on"/"off"
-func Wifi(i map[string]any, a ...string) map[string]any {
-	if len(a) < 1 {
+// Arguments:
+// - status: string ("on"/"off")
+// Retuns:
+// - status: string ("on"/"off")
+func Wifi(i map[string]any) map[string]any {
+	if _, ok := i["status"]; !ok {
 		return map[string]any{
 			"success": false,
 		}
@@ -22,8 +25,9 @@ func Wifi(i map[string]any, a ...string) map[string]any {
 		}
 	}
 
-	_, err = friendly.GetOutput([]string{"nmcli", "radio", a[0]}, "")
+	_, err = friendly.GetOutput([]string{"nmcli", "radio", i["status"].(string)}, "")
 	return map[string]any{
 		"success": err == nil,
+		"status":  i["status"],
 	}
 }

@@ -10,12 +10,23 @@ import (
 )
 
 // Generates a QR code from procided string.
-// Arguments: data
-func QrEncode(i map[string]any, a ...string) map[string]any {
+// Arguments:
+// - data: string
+// Returns:
+// - data: string - original data
+// - file: string - file where the qr code was saved
+func QrEncode(i map[string]any) map[string]any {
+	if _, ok := i["data"]; !ok {
+		return map[string]any{
+			"success": false,
+		}
+	}
+
 	file := path.Join(os.TempDir(), uuid.NewString()+".png")
-	err := qrcode.WriteColorFile("https://example.org", qrcode.Medium, 256, color.White, color.Black, file)
+	err := qrcode.WriteColorFile(i["data"].(string), qrcode.Medium, 256, color.White, color.Black, file)
 	return map[string]any{
 		"success": err == nil,
 		"file":    file,
+		"data":    i["data"],
 	}
 }
