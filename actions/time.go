@@ -7,7 +7,7 @@ import "time"
 // - time: string (HH:MM)
 // Returns:
 // - time: string - current time (HH:MM)
-func Time(i map[string]any) map[string]any {
+func OnTime(i map[string]any) map[string]any {
 	if _, ok := i["time"]; !ok {
 		return map[string]any{
 			"success": false,

@@ -27,13 +27,15 @@ func m(b map[string]any, a map[string]any) map[string]any {
 
 func main() {
 	sequence := []string{
-		"empty",
+		"on-wifi",
 		"qr-encode",
 		"file-open",
 		"notification",
 	}
 	args := []map[string]any{
-		{},
+		{
+			"status": "enabled",
+		},
 		{
 			"data": "https://github.com/alexcoder04",
 		},
@@ -47,6 +49,10 @@ func main() {
 	out := map[string]any{}
 	for i, a := range sequence {
 		switch a {
+		case "on-battery":
+			out = actions.OnBattery(m(args[i], out))
+		case "on-battery-status":
+			out = actions.OnBatteryStatus(m(args[i], out))
 		case "calendar-add":
 			out = actions.CalendarAdd(m(args[i], out))
 		case "empty":
@@ -59,10 +65,12 @@ func main() {
 			out = actions.QrEncode(m(args[i], out))
 		case "stop":
 			out = actions.Stop(m(args[i], out))
-		case "time":
-			out = actions.Time(m(args[i], out))
+		case "on-time":
+			out = actions.OnTime(m(args[i], out))
 		case "wifi":
 			out = actions.Wifi(m(args[i], out))
+		case "on-wifi":
+			out = actions.OnWifi(m(args[i], out))
 		}
 
 		if !out["success"].(bool) {
