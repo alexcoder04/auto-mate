@@ -2,6 +2,8 @@ package actions
 
 import "time"
 
+// Waits until a certain time.
+// Arguments: time string (HH:MM)
 func Time(i map[string]any, a ...string) map[string]any {
 	for {
 		if time.Now().Format("15:04") == a[0] {

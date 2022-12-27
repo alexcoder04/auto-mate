@@ -2,6 +2,8 @@ package actions
 
 import "github.com/TheCreeper/go-notify"
 
+// Sends a desktop notification.
+// Arguments: title, [body, icon]
 func Notification(i map[string]any, a ...string) map[string]any {
 	var ntf notify.Notification
 
