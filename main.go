@@ -27,12 +27,19 @@ func m(b map[string]any, a map[string]any) map[string]any {
 
 func main() {
 	sequence := []string{
+		"on-time",
 		"on-wifi",
 		"qr-encode",
 		"file-open",
 		"notification",
+		"on-file-changed",
+		"notification",
 	}
 	args := []map[string]any{
+		{
+			"time":     "12:43",
+			"weekdays": "1101111",
+		},
 		{
 			"status": "enabled",
 		},
@@ -43,6 +50,12 @@ func main() {
 		{
 			"title": "QR code ready",
 			"body":  ":->file",
+		},
+		{
+			"file": "/home/alex/.bashrc",
+		},
+		{
+			"title": "bashrc changed",
 		},
 	}
 
@@ -59,6 +72,8 @@ func main() {
 			out = actions.Empty(m(args[i], out))
 		case "file-open":
 			out = actions.FileOpen(m(args[i], out))
+		case "on-file-changed":
+			out = actions.OnFileChanged(m(args[i], out))
 		case "notification":
 			out = actions.Notification(m(args[i], out))
 		case "qr-encode":
