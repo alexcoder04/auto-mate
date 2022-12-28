@@ -22,6 +22,7 @@ type ConfigSequence struct {
 }
 
 var Actions = map[string]func(map[string]any) map[string]any{
+	"calculate":         actions.Calculate,
 	"calendar-add":      actions.CalendarAdd,
 	"empty":             actions.Empty,
 	"file-open":         actions.FileOpen,
