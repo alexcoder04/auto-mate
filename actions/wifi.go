@@ -77,3 +77,28 @@ func OnWifi(i map[string]any) map[string]any {
 		time.Sleep(15 * time.Second)
 	}
 }
+
+// Get wifi state
+// Arguments: none
+// Returns:
+// - wifi-on: string
+func GetWifiState(i map[string]any) map[string]any {
+	_, err := exec.LookPath("nmcli")
+	if err != nil {
+		return map[string]any{
+			"success": false,
+		}
+	}
+
+	out, err := friendly.GetOutput([]string{"nmcli", "radio", "wifi"}, "")
+	if err != nil {
+		return map[string]any{
+			"success": false,
+		}
+	}
+
+	return map[string]any{
+		"success": true,
+		"wifi-on": strings.TrimSpace(out),
+	}
+}

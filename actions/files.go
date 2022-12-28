@@ -95,3 +95,67 @@ func OnFileChanged(i map[string]any) map[string]any {
 		"file":    i["file"],
 	}
 }
+
+// Waits until a file is created in a certain folder.
+// Arguments:
+// - folder: string
+// Returns:
+// - folder: string
+func OnFileCreated(i map[string]any) map[string]any {
+	if _, ok := i["folder"]; !ok {
+		return map[string]any{
+			"success": "false",
+		}
+	}
+
+	if !ffiles.IsDir(i["folder"].(string)) {
+		return map[string]any{
+			"success": false,
+		}
+	}
+
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return map[string]any{
+			"success": false,
+		}
+	}
+	defer watcher.Close()
+
+	ch := make(chan string)
+
+	go func(c chan string) {
+		select {
+		case event, ok := <-watcher.Events:
+			if !ok {
+				ch <- ""
+				return
+			}
+			if event.Has(fsnotify.Create) {
+				ch <- event.Name
+				return
+			}
+			if event.Has(fsnotify.Write) {
+				ch <- ""
+				return
+			}
+		case <-watcher.Errors:
+			ch <- ""
+			return
+		}
+	}(ch)
+
+	err = watcher.Add(i["folder"].(string))
+	if err != nil {
+		return map[string]any{
+			"success": false,
+		}
+	}
+
+	res := <-ch
+
+	return map[string]any{
+		"success": true,
+		"path":    res,
+	}
+}
