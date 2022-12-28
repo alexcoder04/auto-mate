@@ -74,6 +74,8 @@ func main() {
 			out = actions.FileOpen(m(args[i], out))
 		case "on-file-changed":
 			out = actions.OnFileChanged(m(args[i], out))
+		case "folder-create":
+			out = actions.FolderCreate(m(args[i], out))
 		case "notification":
 			out = actions.Notification(m(args[i], out))
 		case "qr-encode":
