@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/alexcoder04/glbat v0.1.0 // indirect
 	github.com/godbus/dbus/v5 v5.0.3 // indirect
 	github.com/otiai10/copy v1.9.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect

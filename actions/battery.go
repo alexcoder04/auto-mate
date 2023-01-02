@@ -1,28 +1,10 @@
 package actions
 
 import (
-	"errors"
-	"fmt"
-	"io/ioutil"
-	"strconv"
-	"strings"
 	"time"
 
-	"github.com/alexcoder04/friendly/v2/ffiles"
+	"github.com/alexcoder04/glbat"
 )
-
-func getBatteryPath() (string, error) {
-	for i := range []int{0, 1, 2, 3, 4} {
-		if ffiles.IsDir(fmt.Sprintf("/sys/class/power_supply/BAT%d", i)) {
-			_, err := ioutil.ReadFile(fmt.Sprintf("/sys/class/power_supply/BAT%d/capacity", i))
-			if err != nil {
-				continue
-			}
-			return fmt.Sprintf("/sys/class/power_supply/BAT%d", i), nil
-		}
-	}
-	return "", errors.New("no battery found")
-}
 
 // Waits until battery is at certain level
 // Arguments:
@@ -31,7 +13,7 @@ func getBatteryPath() (string, error) {
 // Returns:
 // - level: int - current battery level
 func OnBattery(i map[string]any) map[string]any {
-	batPath, err := getBatteryPath()
+	batIds, err := glbat.GetDetected()
 	if err != nil {
 		return map[string]any{
 			"success": false,
@@ -40,17 +22,7 @@ func OnBattery(i map[string]any) map[string]any {
 
 	errCount := 0
 	for {
-		data, err := ioutil.ReadFile(batPath + "/capacity")
-		if err != nil {
-			errCount += 1
-			if errCount == 5 {
-				return map[string]any{
-					"success": false,
-				}
-			}
-			continue
-		}
-		cap, err := strconv.Atoi(string(data))
+		bat, err := glbat.GetBat(batIds[0])
 		if err != nil {
 			errCount += 1
 			if errCount == 5 {
@@ -63,18 +35,22 @@ func OnBattery(i map[string]any) map[string]any {
 
 		switch i["type"] {
 		case "higher":
-			if cap > i["level"].(int) {
+			if bat.Capacity > i["level"].(int) {
 				return map[string]any{
 					"success": true,
-					"level":   cap,
+					"level":   bat.Capacity,
 				}
 			}
 		case "lower":
-			if cap < i["level"].(int) {
+			if bat.Capacity < i["level"].(int) {
 				return map[string]any{
 					"success": true,
-					"level":   cap,
+					"level":   bat.Capacity,
 				}
+			}
+		default:
+			return map[string]any{
+				"success": false,
 			}
 		}
 
@@ -88,7 +64,7 @@ func OnBattery(i map[string]any) map[string]any {
 // Returns:
 // - status: string - curent battery status ("Charging"/"Discharging"/"Full")
 func OnBatteryStatus(i map[string]any) map[string]any {
-	batPath, err := getBatteryPath()
+	batIds, err := glbat.GetDetected()
 	if err != nil {
 		return map[string]any{
 			"success": false,
@@ -97,7 +73,7 @@ func OnBatteryStatus(i map[string]any) map[string]any {
 
 	errCount := 0
 	for {
-		data, err := ioutil.ReadFile(batPath + "/status")
+		bat, err := glbat.GetBat(batIds[0])
 		if err != nil {
 			errCount += 1
 			if errCount == 5 {
@@ -108,7 +84,7 @@ func OnBatteryStatus(i map[string]any) map[string]any {
 			continue
 		}
 
-		if strings.TrimSpace(string(data)) == i["status"].(string) {
+		if bat.Status == i["status"].(string) {
 			return map[string]any{
 				"success": true,
 				"status":  i["status"].(string),

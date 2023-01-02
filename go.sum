@@ -4,6 +4,8 @@ github.com/TheCreeper/go-notify v0.2.0 h1:akzlSD8IWx+uOZqGNwS0FYsThYuw11JkXsYiQX
 github.com/TheCreeper/go-notify v0.2.0/go.mod h1:paZnY8fMbaOyZLQWJitGWAMrO5ot3Ow7id47cyEL1KA=
 github.com/alexcoder04/friendly/v2 v2.1.1 h1:r1rEkyquOfMPPvRw/ZjC31DVrPG+keMr4POrW2tV7BQ=
 github.com/alexcoder04/friendly/v2 v2.1.1/go.mod h1:QTi7RZmFEvo4C7/gztc4HM/uj85Qp72MJtqzefFPfKw=
+github.com/alexcoder04/glbat v0.1.0 h1:NSPdM7/QWYTFHAPGINfZZbikD1sF3HMbBLH30XZt4s8=
+github.com/alexcoder04/glbat v0.1.0/go.mod h1:iIES6a+u8gelsecJp33FKAftU/BGth5YN7LjbUWTrS0=
 github.com/benbjohnson/clock v1.1.0 h1:Q92kusRqC1XV2MjkWETPvjJVqKetz1OzxZB7mHJLju8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
