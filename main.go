@@ -22,23 +22,27 @@ type ConfigSequence struct {
 }
 
 var Actions = map[string]func(map[string]any) map[string]any{
-	"calculate":         actions.Calculate,
-	"calendar-add":      actions.CalendarAdd,
-	"empty":             actions.Empty,
-	"file-open":         actions.FileOpen,
-	"folder-create":     actions.FolderCreate,
-	"get.user-and-host": actions.GetUserAndHost,
-	"get.wifi-state":    actions.GetWifiState,
-	"notification":      actions.Notification,
-	"on.battery":        actions.OnBattery,
+	"on.battery-level":  actions.OnBatteryLevel,
 	"on.battery-status": actions.OnBatteryStatus,
 	"on.file-changed":   actions.OnFileChanged,
 	"on.file-created":   actions.OnFileCreated,
 	"on.time":           actions.OnTime,
 	"on.wifi":           actions.OnWifi,
-	"qr-encode":         actions.QrEncode,
-	"stop":              actions.Stop,
-	"wifi":              actions.Wifi,
+
+	"get.clipboard":     actions.GetClipboard,
+	"get.user-and-host": actions.GetUserAndHost,
+	"get.wifi-state":    actions.GetWifiState,
+
+	"do.calculate":          actions.Calculate,
+	"do.copy":               actions.CliboardCopy,
+	"do.copy-self-destruct": actions.CliboardCopySelfDestruct,
+	"do.empty":              actions.Empty,
+	"do.file-open":          actions.FileOpen,
+	"do.folder-create":      actions.FolderCreate,
+	"do.notification":       actions.Notification,
+	"do.qr-encode":          actions.QrEncode,
+	"do.stop":               actions.Stop,
+	"do.wifi":               actions.Wifi,
 }
 
 var (

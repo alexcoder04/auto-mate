@@ -12,7 +12,7 @@ import (
 // - type: string ("lower"/"higher")
 // Returns:
 // - level: int - current battery level
-func OnBattery(i map[string]any) map[string]any {
+func OnBatteryLevel(i map[string]any) map[string]any {
 	batIds, err := glbat.GetDetected()
 	if err != nil {
 		return map[string]any{
