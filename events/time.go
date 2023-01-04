@@ -1,4 +1,4 @@
-package actions
+package events
 
 import (
 	"errors"
@@ -37,7 +37,7 @@ func getWeekdaysList(i string) ([]time.Weekday, error) {
 // - weekdays: string ("1111100") - starting with Mo, 1 means run, 0 not run
 // Returns:
 // - time: string - current time (HH:MM)
-func OnTime(i map[string]any) map[string]any {
+func Time(i map[string]any) map[string]any {
 	if _, ok := i["time"]; !ok {
 		return map[string]any{
 			"success": false,

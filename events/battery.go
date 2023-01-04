@@ -1,4 +1,4 @@
-package actions
+package events
 
 import (
 	"time"
@@ -12,7 +12,7 @@ import (
 // - type: string ("lower"/"higher")
 // Returns:
 // - level: int - current battery level
-func OnBatteryLevel(i map[string]any) map[string]any {
+func BatteryLevel(i map[string]any) map[string]any {
 	batIds, err := glbat.GetDetected()
 	if err != nil {
 		return map[string]any{
@@ -63,7 +63,7 @@ func OnBatteryLevel(i map[string]any) map[string]any {
 // - status: string ("Charging"/"Discharging"/"Full")
 // Returns:
 // - status: string - curent battery status ("Charging"/"Discharging"/"Full")
-func OnBatteryStatus(i map[string]any) map[string]any {
+func BatteryStatus(i map[string]any) map[string]any {
 	batIds, err := glbat.GetDetected()
 	if err != nil {
 		return map[string]any{

@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/alexcoder04/auto-mate/actions"
+	"github.com/alexcoder04/auto-mate/events"
 	"go.uber.org/zap"
 )
 
@@ -22,12 +23,12 @@ type ConfigSequence struct {
 }
 
 var Actions = map[string]func(map[string]any) map[string]any{
-	"on.battery-level":  actions.OnBatteryLevel,
-	"on.battery-status": actions.OnBatteryStatus,
-	"on.file-changed":   actions.OnFileChanged,
-	"on.file-created":   actions.OnFileCreated,
-	"on.time":           actions.OnTime,
-	"on.wifi":           actions.OnWifi,
+	"on.battery-level":  events.BatteryLevel,
+	"on.battery-status": events.BatteryStatus,
+	"on.file-changed":   events.FileChanged,
+	"on.file-created":   events.FileCreated,
+	"on.time":           events.Time,
+	"on.wifi":           events.Wifi,
 
 	"get.clipboard":     actions.GetClipboard,
 	"get.user-and-host": actions.GetUserAndHost,
