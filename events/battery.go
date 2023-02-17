@@ -3,7 +3,7 @@ package events
 import (
 	"time"
 
-	"github.com/alexcoder04/glbat"
+	"github.com/alexcoder04/auto-mate/lib/glbat"
 )
 
 // Waits until battery is at certain level
