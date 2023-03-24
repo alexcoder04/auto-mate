@@ -25,8 +25,10 @@ type ConfigSequence struct {
 var Actions = map[string]func(map[string]any) map[string]any{
 	"on.battery-level":  events.BatteryLevel,
 	"on.battery-status": events.BatteryStatus,
+	"on.bluetooth":      events.Bluetooth,
 	"on.file-changed":   events.FileChanged,
 	"on.file-created":   events.FileCreated,
+	"on.network":        events.Network,
 	"on.time":           events.Time,
 	"on.wifi":           events.Wifi,
 
