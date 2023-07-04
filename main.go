@@ -7,8 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/alexcoder04/auto-mate/actions"
-	"github.com/alexcoder04/auto-mate/events"
+	"github.com/alexcoder04/auto-mate/amap"
 	"go.uber.org/zap"
 )
 
@@ -19,33 +18,8 @@ type ConfigAction struct {
 
 type ConfigSequence struct {
 	Name    string         `json:"name"`
+	Restart bool           `json:"restart"`
 	Actions []ConfigAction `json:"actions"`
-}
-
-var Actions = map[string]func(map[string]any) map[string]any{
-	"on.battery-level":  events.BatteryLevel,
-	"on.battery-status": events.BatteryStatus,
-	"on.bluetooth":      events.Bluetooth,
-	"on.file-changed":   events.FileChanged,
-	"on.file-created":   events.FileCreated,
-	"on.network":        events.Network,
-	"on.time":           events.Time,
-	"on.wifi":           events.Wifi,
-
-	"get.clipboard":     actions.GetClipboard,
-	"get.user-and-host": actions.GetUserAndHost,
-	"get.wifi-state":    actions.GetWifiState,
-
-	"do.calculate":          actions.Calculate,
-	"do.copy":               actions.CliboardCopy,
-	"do.copy-self-destruct": actions.CliboardCopySelfDestruct,
-	"do.empty":              actions.Empty,
-	"do.file-open":          actions.FileOpen,
-	"do.folder-create":      actions.FolderCreate,
-	"do.notification":       actions.Notification,
-	"do.qr-encode":          actions.QrEncode,
-	"do.stop":               actions.Stop,
-	"do.wifi":               actions.Wifi,
 }
 
 var (
@@ -87,23 +61,28 @@ func m(b map[string]any, a map[string]any) map[string]any {
 }
 
 func handleSequence(sequence ConfigSequence, wg *sync.WaitGroup) {
-	out := map[string]any{}
-	for i, a := range sequence.Actions {
-		if _, ok := Actions[a.Type]; !ok {
-			Sugar.Errorw("action not found", "action", a, "sequence", sequence.Name)
-			return
+
+	for {
+		out := map[string]any{}
+		for i, a := range sequence.Actions {
+			if _, ok := amap.Actions[a.Type]; !ok {
+				Sugar.Errorw("action not found", "action", a, "sequence", sequence.Name)
+				return
+			}
+
+			out = amap.Actions[a.Type](m(a.Args, out))
+
+			if !out["success"].(bool) {
+				Sugar.Errorw("action failed", "action", a, "step", i+1, "sequence", sequence.Name)
+				return
+			}
 		}
 
-		out = Actions[a.Type](m(a.Args, out))
-
-		if !out["success"].(bool) {
-			Sugar.Errorw("action failed", "action", a, "step", i+1, "sequence", sequence.Name)
-			return
+		if !sequence.Restart {
+			Sugar.Infow("sequence finished", "sequence", sequence.Name)
+			wg.Done()
 		}
 	}
-
-	Sugar.Infow("sequence finished", "sequence", sequence.Name)
-	wg.Done()
 }
 
 func main() {
