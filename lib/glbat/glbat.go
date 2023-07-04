@@ -59,14 +59,14 @@ func GetBat(id int) (Battery, error) {
 	}
 	bat.EnergyFull = ef
 
-	efd, err := readInt(path + "/energy_full")
+	efd, err := readInt(path + "/energy_full_design")
 	if err != nil {
 		bat.EnergyFullDesign = bat.EnergyFull
 	} else {
 		bat.EnergyFullDesign = efd
 	}
 
-	en, err := readInt(path + "/energy_full")
+	en, err := readInt(path + "/energy_now")
 	if err != nil {
 		return bat, errors.New("cannot get energy_now")
 	} else {

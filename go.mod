@@ -9,6 +9,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/google/uuid v1.3.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
+	github.com/yuin/gopher-lua v1.1.0
 	go.uber.org/zap v1.24.0
 	golang.design/x/clipboard v0.6.3
 )
@@ -16,7 +17,6 @@ require (
 require (
 	github.com/godbus/dbus/v5 v5.0.3 // indirect
 	github.com/otiai10/copy v1.9.0 // indirect
-	github.com/yuin/gopher-lua v1.1.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56 // indirect
